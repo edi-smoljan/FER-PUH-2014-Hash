@@ -1,5 +1,5 @@
 a=1;
-b=2;
+b=2; #b is 2 and I don't mind that
 c="im in love with the coco";
 echo $a;
   #we love the coco
@@ -7,13 +7,14 @@ echo $c;
 mkdir "New folder";
 cd "New folder";
 create "test.txt";
-echo "Yes test i\'ll try to do my best" > test.txt;
+echo "Yes test i'll try to do my best" > test.txt;
+echo "I'm appending to!" >> test.txt;
 if $a < 0 || $a == 1 then
   echo Say it like it really is;
-  echo Yes yes yall; 
+  echo 'Yes yes \t yall'; 
 fi
 cd ..;
-hexdump Expressions.hs;
+hexdump parsec_test.hs;
 b=i;
 for $b in 1 2 3 4 $c 6
 do

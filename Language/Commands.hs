@@ -214,23 +214,29 @@ hexdump :: Command
 hexdump args ss input output = do
   let normPaths = normalizePaths ss args
   (do bytes <- BS.readFile $ head args
-      printDump ss bytes) `catch` (errorHandler output ss)
+      let fileLen        = BS.length bytes
+          numberOfDigits = fromIntegral (ceiling (logBase 16 (fromIntegral fileLen)))
+      printDump ss 0 numberOfDigits bytes) `catch` (errorHandler output ss)
   
-printDump :: ScriptState -> BS.ByteString -> IO ScriptState
-printDump ss stream =
+printDump :: ScriptState -> Int -> Int -> BS.ByteString -> IO ScriptState
+printDump ss lineNum printDigits stream =
   if not (BS.null stream) then do
     let toPrint   = BS.unpack $ BS.take 16 stream
-        hexString = intercalate " " . map convertToHexString $ toPrint
+        lineIndex = convertToHexString lineNum printDigits
+        hexString = intercalate " " . map ((flip convertToHexString) 2) $ toPrint
         numSpaces = 5 + (16 - (length toPrint)) * 3 - 1
-        printed   = hexString ++ (replicate numSpaces ' ') ++ (map toPrintChar toPrint)
+        printed   = lineIndex ++ ":  " ++ hexString ++ (replicate numSpaces ' ')
+                      ++ (map toPrintChar toPrint)
     putStrLn printed
-    printDump (ss{output=printed}) (BS.drop 16 stream)
+    printDump (ss{output=printed}) (lineNum+16) printDigits (BS.drop 16 stream)
   else
     return ss
     
-convertToHexString :: W.Word8 -> String
-convertToHexString byte = if (length str) == 1 then '0':str else str
-  where str = map toUpper $ showHex byte ""
+convertToHexString :: (Integral a, Show a) => a -> Int -> String
+convertToHexString byte len = if lenS < len then (replicate tims '0') ++ str else str
+  where str  = map toUpper $ showHex byte ""
+        lenS = length str
+        tims = len - lenS
 
 toPrintChar :: W.Word8 -> Char
 toPrintChar byte = if isPrint char then char else '.'
