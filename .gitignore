@@ -2,6 +2,11 @@
 Thumbs.db
 ehthumbs.db
 
+#built hash project
+dist/*
+
+
+
 # Folder config file
 Desktop.ini
 

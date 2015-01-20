@@ -1,0 +1,23 @@
+a=1;
+b=2;
+c="im in love with the coco";
+echo $a;
+  #we love the coco
+echo $c;
+mkdir "New folder";
+cd "New folder";
+create "test.txt";
+echo "Yes test i\'ll try to do my best" > test.txt;
+if $a < 0 || $a == 1 then
+  echo Say it like it really is;
+  echo Yes yes yall; 
+fi
+cd ..;
+hexdump Expressions.hs;
+b=i;
+for $b in 1 2 3 4 $c 6
+do
+  #Massachusetts
+  echo "A $i";
+done
+echo "Roadrunner! Roadrunner!";
