@@ -20,7 +20,7 @@ import Text.Parsec.Expr
 err = "An error has occurred"
 
 keywords = ["if", "then", "else", "fi", "do", "done", "for"]
-createKeywordParser word = try (notFollowedBy (string word))
+createKeywordParser word = try (notFollowedBy (string word >> notFollowedBy alphaNum))
 
 keywordAlert :: Parser a -> Parser a
 keywordAlert = foldr (\str acc -> (createKeywordParser str *>) . acc) id keywords
